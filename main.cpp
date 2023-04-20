@@ -29,9 +29,9 @@ public:
 
 		Iterator& operator++() { ++_idx; return *this; }
 
-		bool operator !=(const Iterator & other)
+		bool operator !=(const Iterator & other) const
 		{
-			return _idx != other._idx;
+			return _data != other._data || _idx != other._idx;
 		}
 
 		T& operator*()
@@ -109,10 +109,6 @@ private:
 
 };
 
-
-
-
-
 int main()
 {
 
@@ -127,7 +123,7 @@ int main()
 	arr.print();
 
 	cout << "Custom range based for loop: " << endl;
-	for (const auto elem : arr)
+	for (const auto elem : arr)	//we need predefined iterator in SmartARray
 	{
 		cout << elem << ' ';
 	}
