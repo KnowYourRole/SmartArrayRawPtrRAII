@@ -78,28 +78,28 @@ public:
 		cout << endl;
 	}
 
-	void resize(size_t newSize)
-	{
-		T * newData = new T[newSize]{};
-		for (size_t i = 0; i < _size && i < newSize; i++)
+	void resize(size_t newSize)	//only copy the old values into the new one
+	{									// can instead use a unique ptr ex below
+		T * newData = new T[newSize]{};	//unique_ptr<T[]> newData(new T[newSize] {});
+		for (size_t i = 0; i < _size && i < newSize; ++i)	//increment before reaching either size so we don't get an exception
 		{
 			newData[i] = _data[i];
 		}
 
 
 		delete[] _data;
-		_data = newData;
+		_data = newData;	//_data = move(newData) - when using a uniqueptr
 		_size = newSize;
 	}
 
 	Iterator begin()
 	{
-		return Iterator(_data, _size, 0);
+		return Iterator(_data, _size, 0);	//return iterator to our data with size _size starting from 0
 	}
 
 	Iterator end()
 	{
-		return Iterator(_data, _size, _size);
+		return Iterator(_data, _size, _size);	//getting the first element after the last
 	}
 
 private:
@@ -117,6 +117,7 @@ int main()
 	arr.print();
 
 	arr.resize(10);
+	arr[9] = 10;
 	arr.print();
 
 	arr.resize(2);
